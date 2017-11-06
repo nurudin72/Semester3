@@ -14,35 +14,29 @@ import java.util.*;
 public class BinTree {
 
     Node root;
-
+    int k;
     private boolean isEmpty() {
         return (root == null);
     }
-
-    public void insert(int input) {
-        Node temp = new Node(input);
-        if (isEmpty()) {
-            root = temp;
-        } else {
-            Node cursor = root,
-                    parent = null;
-            while (cursor != null) {
-                parent = cursor;
-                if (input < cursor.data) {
-                    cursor = cursor.left;
-                } else {
-                    cursor = cursor.right;
-                }
-            }
-            if (input < parent.data) {
-                parent.left = temp;
-                return;
-            } else {
-                parent.right = temp;
-                return;
-            }
-        }
+  public void insert(int data){
+        root = insert(root, data);
+      
     }
+    
+    private Node insert(Node node, int data){ 
+        
+        if (node == null){
+             node = new Node(data);
+         }
+         else{
+             if (data <= node.data)
+                 node.left = insert(node.left, data);
+             else
+                 node.right = insert(node.right, data);
+         }
+         
+         return node;
+     }
  public int getLeafCount(){
         return getLeafCount(root);
     }
@@ -88,7 +82,30 @@ public class BinTree {
         }
         System.out.println("");
     }
+ 
+   public void searchPaths(int x){
+        searchGet(root, x);
+    }
+    
+    public void searchGet(Node root,int x){
+            if(root.getData()<x){
+            System.out.print(root.getData()+" ");
+            searchGet(root.getRight(), x);  
+            }
 
+            else if(root.getData()>x){
+                System.out.print(root.getData()+" ");
+                searchGet(root.getLeft(), x);
+            }
+
+            else if(root.getData()==x){
+                System.out.print(root.getData()+" ");
+            }
+            else if(root.getData()==k){
+                System.out.print(" Data tidak ada ");
+            }
+        
+    }
     public void delete(int k) {
         if (isEmpty()) {
             System.out.println("Maaf Data Kosong");
